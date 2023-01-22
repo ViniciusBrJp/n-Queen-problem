@@ -22,12 +22,10 @@ public class Problem1_3 {
             }
             queenColumn[row] = 0;
         }
-        queenColumn[0] = queenNumber/2;
+        queenColumn[0] = 0;//真ん中queenNumber/2 + 1が一番はやいかも（検証中）
 
         int totalRow = 0;//どの行まで進んだか数えるため
-        int n = 0;
-        while(n < queenNumber%10){
-            while(totalRow < queenNumber/10){
+            while(totalRow < queenNumber - 1){
                 totalRow = totalRow + 10*n;
                 //進んだ配列以降を初期化
                 for(int row = totalRow; row < queenNumber;row++){
@@ -63,10 +61,7 @@ public class Problem1_3 {
                         queenColumn[totalRow]++;
                     }
                 }
-                
-            }
             display(queen,queenNumber);
-            n++;
         }
         for(int column = 0; column < queenNumber; column++) {
             if(queen[queenNumber - 1][column] == 0) queen[queenNumber - 1][column] = 1;
