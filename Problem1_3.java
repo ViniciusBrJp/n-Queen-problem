@@ -22,14 +22,10 @@ public class Problem1_3 {
             }
             queenColumn[row] = 0;
         }
-        //queenColumn[0] = queenNumber/2 - 1;
-        for(int n = 0; n < queenNumber/2;n++) {
+        for(int n = 0; n < queenNumber/2;n++) {//上半分の初期値を被らない対角線上におく
             queen[n][2*n+1] = 1;
             putQueen(queen,n,queenNumber);
         }
-        //  for(int n = queenNumber/2;n < queenNumber - 2;n++){
-        //      queen[n][(n-queenNumber/2)*2] = 1;
-        //      putQueen(queen,n,queenNumber);
             
         // }
         //display(queen,queenNumber);
@@ -131,7 +127,7 @@ public class Problem1_3 {
         System.out.println();
     }
 
-    public static void queenPlace(int[][] queen, int queenNumber) {
+    public static void queenPlace(int[][] queen, int queenNumber) {//クイーンが左から何番目にあるか出力するため
         for(int row = 0;row < queenNumber ;row++){
             int column = 0;
             while(queen[row][column] == 2){
