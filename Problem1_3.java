@@ -11,7 +11,7 @@ package UltraChallenge;
 public class Problem1_3 {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
-        int queenNumber = 50;//クイーンの数
+        int queenNumber = 1000;//クイーンの数
         int[][] queen = new int[queenNumber][queenNumber];//クイーンの配置を二次元配列とする
         int queenColumn[] = new int[queenNumber];//各列のクイーンの配置を記憶
         //はじめにqueen配列にすべて0を記憶
@@ -22,11 +22,20 @@ public class Problem1_3 {
             }
             queenColumn[row] = 0;
         }
-        queenColumn[0] = 0;//真ん中queenNumber/2 + 1が一番はやいかも（検証中）
-
-        int totalRow = 0;//どの行まで進んだか数えるため
+        //queenColumn[0] = queenNumber/2 - 1;
+        for(int n = 0; n < queenNumber/2;n++) {
+            queen[n][2*n+1] = 1;
+            putQueen(queen,n,queenNumber);
+        }
+        //  for(int n = queenNumber/2;n < queenNumber - 2;n++){
+        //      queen[n][(n-queenNumber/2)*2] = 1;
+        //      putQueen(queen,n,queenNumber);
+            
+        // }
+        //display(queen,queenNumber);
+        int totalRow = queenNumber/2;//どの行まで進んだか数えるため
             while(totalRow < queenNumber - 1){
-                totalRow = totalRow + 10*n;
+  
                 //進んだ配列以降を初期化
                 for(int row = totalRow; row < queenNumber;row++){
                     for(int column = 0; column < queenNumber; column++) {
@@ -43,8 +52,12 @@ public class Problem1_3 {
                     queen[totalRow][queenColumn[totalRow]] = 1;
                     putQueen(queen,totalRow,queenNumber);
                     totalRow++;
+                    //display(queen,queenNumber);
                 }else {//０でないなら次の列へ進む
-                    queenColumn[totalRow]++;
+                    while(queen[totalRow][queenColumn[totalRow]] != 0) {
+                        queenColumn[totalRow]+=2;
+                        if(queenColumn[totalRow] >= queenNumber) break;
+                    }
                 }
                 int zeroCount = 0;
                 for(int column = 0; column < queenNumber; column++){//クイーンを配置したときの次の行の０の数をカウント
@@ -52,24 +65,28 @@ public class Problem1_3 {
                 }
                 if(zeroCount == 0){//次の行の０の数が０の場合はクイーンを配置できないため、前の行で配置したクイーンはよくなかったので次の０に配置
                     totalRow--;
-                    queenColumn[totalRow]++;
+                    while(queen[totalRow][queenColumn[totalRow]] != 0) {
+                        queenColumn[totalRow]+=2;
+                        if(queenColumn[totalRow] >= queenNumber) break;
+                    }
                 }
-                if(queenColumn[totalRow] == queenNumber) {//前の行ですべての列を調べても解が求まらなかったら、さらに一行戻りクイーンを移動
+                if(queenColumn[totalRow] >= queenNumber) {//前の行ですべての列を調べても解が求まらなかったら、さらに一行戻りクイーンを移動
                     while(queenColumn[totalRow] >= queenNumber) {
                         queenColumn[totalRow] = 0;
                         totalRow--;
                         queenColumn[totalRow]++;
                     }
                 }
-            display(queen,queenNumber);
-        }
+                //display(queen,queenNumber);
+            }
         for(int column = 0; column < queenNumber; column++) {
             if(queen[queenNumber - 1][column] == 0) queen[queenNumber - 1][column] = 1;
             putQueen(queen,queenNumber - 1,queenNumber);
         }
         long endTime = System.currentTimeMillis();
 
-        display(queen,queenNumber);
+        //display(queen,queenNumber); //駒を表示
+        //queenPlace(queen,queenNumber); //駒が左から何番目にいるか表示
         System.out.println("処理時間は " + (endTime - startTime) + " ms");
     }
 
@@ -110,6 +127,17 @@ public class Problem1_3 {
                 }
             }
             System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void queenPlace(int[][] queen, int queenNumber) {
+        for(int row = 0;row < queenNumber ;row++){
+            int column = 0;
+            while(queen[row][column] == 2){
+                column++;
+            }
+            System.out.println(column + 1);
         }
         System.out.println();
     }
